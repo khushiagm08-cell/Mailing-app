@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mail — Demo UI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="left card" aria-label="sidebar">
+      <button class="compose" id="open-compose">+ Compose</button>
+      <nav class="nav" aria-label="folders">
+        <button class="active" data-folder="inbox" id="inbox-btn">Inbox <span class="pill" id="inbox-count" style="margin-left:auto">5</span></button>
+        <button data-folder="starred">Starred</button>
+        <button data-folder="sent" id="sent-btn">Sent <span class="pill" id="sent-count" style="margin-left:auto">0</span></button>
+        <button data-folder="drafts">Drafts</button>
+        <button data-folder="archive">Archive</button>
+      </nav>
+      <div style="margin-top:18px;color:var(--muted);font-size:13px">Labels</div>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <span class="pill">Work</span><span class="pill">Personal</span><span class="pill">UX</span>
+      </div>
+    </aside>
+
+    <main class="center">
+      <div class="toolbar">
+        <div class="search" role="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="opacity:0.7"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5"></circle></svg>
+          <input id="search" placeholder="Search mail" aria-label="Search mail" />
+        </div>
+        <div class="controls">
+          <button class="btn" id="refresh">Refresh</button>
+          <button class="btn" id="mark-read">Mark read</button>
+        </div>
+      </div>
+
+      <section class="list card" aria-label="email list" id="inbox-list"></section>
+      <section class="list card" aria-label="sent list" id="sent-list" style="display:none"></section>
+    </main>
+
+    <aside class="right">
+      <div class="preview card" id="preview">
+        <h3>Select an email to preview</h3>
+        <div class="meta muted">No message selected</div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="compose-modal" id="compose" style="display:none" role="dialog" aria-modal="true" aria-label="Compose email">
+    <header>
+      <strong>New message</strong>
+      <button id="close-compose" aria-label="Close compose">✕</button>
+    </header>
+    <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+      <input id="to" placeholder="To (will be overridden)" />
+      <input id="subj" placeholder="Subject" />
+      <textarea id="body" rows="8" placeholder="Write your message..."></textarea>
+      <div class="compose-actions">
+        <select id="mode" title="Sending mode">
+          <option value="simulate" selected>Simulate (Offline)</option>
+          <option value="emailjs">EmailJS</option>
+          <option value="gmail">Gmail API</option>
+        </select>
+        <button class="btn" id="save-draft">Save draft</button>
+        <button class="btn" id="send">Send</button>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px">
+        Note: All mails will be sent to <strong id="fixed-recipient">khushiagm08@gmail.com</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- toast -->
+  <div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#10b981; color:white; padding:10px 16px; border-radius:8px;">Message sent!</div>
+
+  <!-- libs (EmailJS + Google API) -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://apis.google.com/js/api.js"></script>
+
+  <!-- app logic (module) -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
